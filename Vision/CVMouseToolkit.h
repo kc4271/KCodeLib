@@ -104,11 +104,11 @@ bool CrossRect(cv::Rect rect, cv::Rect mask, cv::Rect &cross);
 
 class CImageDragger {
 public:
-	static std::string windowsName;
+	static std::string windowName;
 
-	static void setup(const char *wName, cv::Mat &img) {
-		windowsName = wName;
-		cv::setMouseCallback(windowsName, &drag, &img);
+	static void setup(const char *windowName_, cv::Mat &img) {
+		windowName = windowName_;
+		cv::setMouseCallback(windowName, &drag, &img);
 	}
 
 	static void drag(int event_, int x, int y, int flags, void* param) {
@@ -125,7 +125,7 @@ public:
 			if(selectRect.running()) {
 				cv::Rect rect = selectRect.GetSelectedRect();
 				cv::rectangle(img, rect, cv::Scalar(255, 0, 0));
-				cv::imshow(windowsName, img);
+				cv::imshow(windowName, img);
 			}
 
 			dragRect.MouseMove(x, y);
@@ -142,7 +142,7 @@ public:
 				cv::Mat imgSubRect = cv::Mat(imgSelected, cv::Rect(subRect.x - rect.x, subRect.y - rect.y, subRect.width, subRect.height));
 				cv::Mat area = cv::Mat(img, subRect);
 				cv::addWeighted(area, 0.3, imgSubRect, 0.7, 0.0, area);
-				cv::imshow(windowsName, img);
+				cv::imshow(windowName, img);
 			}
 			break;
 		case CV_EVENT_RBUTTONDOWN:

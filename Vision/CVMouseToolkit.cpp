@@ -17,4 +17,4 @@ bool CrossRect(cv::Rect rect, cv::Rect mask, cv::Rect &cross) {
 	return true;
 }
 
-std::string CImageDragger::windowsName;
+std::string CImageDragger::windowName;
