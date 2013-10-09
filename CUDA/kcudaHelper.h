@@ -78,6 +78,3 @@ void ctmf_gpu(float* src, float* dst,int width, int height,int src_step_row, int
 void dumpGPUInfo();
 
 float time_check(const char *posStr);
-
-void add2(float t);
-void add1(float t);
