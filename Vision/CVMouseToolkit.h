@@ -42,7 +42,7 @@ public:
 		return tRect;
 	}
 
-	bool running() {
+	bool IsRunning() {
 		return flag;
 	}
 };
@@ -58,7 +58,7 @@ private:
 public:
 	CDragRect():flag(false),inited(false) {}
 
-	void initRect(cv::Rect rect_) {
+	void InitRect(cv::Rect rect_) {
 		rect = rect_;
 		inited = true;
 	}
@@ -86,11 +86,11 @@ public:
 		return rect;
 	}
 
-	bool running() {
+	bool IsRunning() {
 		return flag;
 	}
 
-	bool hasInited() {
+	bool HasInited() {
 		return inited;
 	}
 };
@@ -122,14 +122,14 @@ public:
 		case CV_EVENT_MOUSEMOVE:
 			if(!imgRect.contains(cv::Point(x, y))) break;
 			selectRect.MouseMove(x, y);
-			if(selectRect.running()) {
+			if(selectRect.IsRunning()) {
 				cv::Rect rect = selectRect.GetSelectedRect();
 				cv::rectangle(img, rect, cv::Scalar(255, 0, 0));
 				cv::imshow(windowName, img);
 			}
 
 			dragRect.MouseMove(x, y);
-			if(dragRect.hasInited()) {
+			if(dragRect.HasInited()) {
 				if(dragRect.GetDraggedRect().contains(cv::Point(x,y))) {
 					cv::rectangle(imgSelected, cv::Rect(0, 0, imgSelected.size().width, imgSelected.size().height), cv::Scalar(0, 0, 255));
 				} else {
@@ -151,7 +151,7 @@ public:
 		case CV_EVENT_RBUTTONUP:
 			selectRect.ButtonUp(x, y);
 			imgSelected = cv::Mat(img, selectRect.GetSelectedRect()).clone();
-			dragRect.initRect(selectRect.GetSelectedRect());
+			dragRect.InitRect(selectRect.GetSelectedRect());
 			break;
 		case CV_EVENT_LBUTTONDOWN:
 			dragRect.ButtonDown(x, y);
