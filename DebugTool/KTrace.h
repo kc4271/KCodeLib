@@ -26,11 +26,14 @@ namespace KTRACE
 		bool success;
 		int termstat;
 		bool bad_read_client;
-		
+		bool running;
+
 	public:
 		KTrace(const char *ktrace_exe_path = "KTrace.exe",const int _bufsize = 10240)
 		{
 			bad_read_client = false;
+			running = false;
+
 			strcpy(displayTool, ktrace_exe_path);
 			
 			if((_access(displayTool, 0 )) == -1 ) {
@@ -82,12 +85,15 @@ namespace KTRACE
 		{
 			if(success) {
 				pid = _spawnl(P_NOWAIT,displayTool,displayTool,hstr,sstr,NULL);          
+				if(pid != -1) {
+					running = true;
+				}
 			}
 		}
 
 		void Trace(const char *fmt, ...)
 		{
-			if(success && !bad_read_client)
+			if(running && !bad_read_client)
 			{
 				va_list ap;
 				va_start(ap,fmt);
