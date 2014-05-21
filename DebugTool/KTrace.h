@@ -52,7 +52,7 @@ namespace KTRACE
 					strcpy(newPath, dir);
 					int len = strlen(newPath);
 					if(len > 0 && !(newPath[len - 1] == '\\' || newPath[len - 1] == '/')) {
-						strcat(newPath, "\\");
+						strcat(newPath, "/");
 					}
 					strcat(newPath, displayTool);
 					if((_access(newPath, 0 )) != -1) {
