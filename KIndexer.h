@@ -6,7 +6,7 @@
 template<typename _Tp, int cn>
 class KIdx_ {
 public:
-    KIdx_(_Tp *data, int c0): {
+    KIdx_(_Tp *data, int c0) {
         assert(cn == 1);
         p = data;
         sum2 = sum3 = sum = dim[0] = c0;
@@ -88,7 +88,7 @@ public:
 template<typename _Tp, int cn>
 class KIdx_Col {
 public:
-    KIdx_Col(_Tp *data, int c0): {
+    KIdx_Col(_Tp *data, int c0) {
         assert(cn == 1);
         p = data;
         sum3 = sum2 = sum = dim[0] = c0;
