@@ -33,7 +33,7 @@ struct CSubInd {
     }
 
     // convert index to row-major sub
-    std::vector<int> ind2rowsub(int ind) {
+    std::vector<int> ind2sub_row(int ind) {
         std::vector<int> sub(dims, 0);
         for (int jdx = dims - 1; jdx >= 0; jdx--) {
             sub[jdx] = ind / row_major_presum[jdx] % sizes[jdx];
@@ -43,7 +43,7 @@ struct CSubInd {
     }
 
     // convert index to col-major sub
-    std::vector<int> ind2colsub(int ind) {
+    std::vector<int> ind2sub_col(int ind) {
         std::vector<int> sub(dims, 0);
         for (int jdx = 0; jdx < dims; jdx++) {
             sub[jdx] = ind / col_major_presum[jdx] % sizes[jdx];
@@ -53,7 +53,7 @@ struct CSubInd {
     }
 
     // convert sub to row-major index
-    int sub2rowind(std::vector<int> const &sub) {
+    int sub2ind_row(std::vector<int> const &sub) {
         int ind = 0;
         for (int jdx = dims - 1; jdx >= 0; jdx--) {
             ind += sub[jdx] * row_major_presum[jdx];
@@ -62,7 +62,7 @@ struct CSubInd {
     }
 
     // convert sub to col-major index
-    int sub2colind(std::vector<int> const &sub) {
+    int sub2ind_col(std::vector<int> const &sub) {
         int ind = 0;
         for (int jdx = 0; jdx < dims; jdx++) {
             ind += sub[jdx] * col_major_presum [jdx];
@@ -77,14 +77,14 @@ void test() {
     CSubInd si;
     si.init(dims, size);
     for (int idx = 0; idx < 5 * 4 * 3 * 2; idx++) {
-        auto res1 = si.ind2rowsub(idx);
+        auto res1 = si.ind2sub_row(idx);
         std::cout << idx << "; ";
         for (auto v : res1) {
             std::cout << v << " ";
         }
         std::cout << "; ";
 
-        auto res2 = si.ind2colsub(idx);
+        auto res2 = si.ind2sub_col(idx);
         
         for (auto v : res2) {
             std::cout << v << " ";
@@ -92,7 +92,7 @@ void test() {
         std::cout << "; ";
         
 
-        if (idx == si.sub2rowind(res1) && idx == si.sub2colind(res2)) {
+        if (idx == si.sub2ind_row(res1) && idx == si.sub2ind_col(res2)) {
             std::cout << " PASS ";
         }
         std::cout << std::endl;
