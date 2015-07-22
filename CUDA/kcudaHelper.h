@@ -1,7 +1,18 @@
 #pragma once
 #include <cuda_runtime.h>
 #include <cuda_runtime_api.h>
-#include <cutil_inline.h>
+
+#define CUDAVERSION 6
+
+#if CUDAVERSION >= 5
+	#include <helper_cuda.h>
+	#define kCudaErrorCheck checkCudaErrors
+#else
+	#include <cutil_inline.h>
+	#define kCudaErrorCheck cutilSafeCall
+#endif
+
+
 #define TIME_CHECK_VERBOSE 1
 
 template <typename T>
@@ -15,13 +26,13 @@ public:
 	GpuArray(unsigned int size) {
 		gpuPtr = NULL;
 		size = sizeof(T) * size;
-		cutilSafeCall( cudaMalloc(&gpuPtr, size) );
+		kCudaErrorCheck( cudaMalloc(&gpuPtr, size) );
 		arraySize = size;
 	}
 
 	~GpuArray() {
 		if(gpuPtr) {
-			cutilSafeCall( cudaFree(gpuPtr) );
+			kCudaErrorCheck( cudaFree(gpuPtr) );
 			gpuPtr = NULL;
 			arraySize = 0;
 		}
@@ -44,16 +55,16 @@ public:
 			cudaFree(gpuPtr);
 		}
 		size = sizeof(T) * size;
-		cutilSafeCall( cudaMalloc(&gpuPtr, size) );
+		kCudaErrorCheck( cudaMalloc(&gpuPtr, size) );
 		arraySize = size;
 	}
 
 	void writeDataToDevice(T *dataSrc) {
-		cutilSafeCall( cudaMemcpy(gpuPtr, dataSrc, arraySize, cudaMemcpyHostToDevice) );
+		kCudaErrorCheck( cudaMemcpy(gpuPtr, dataSrc, arraySize, cudaMemcpyHostToDevice) );
 	}
 
 	void readDataToHost(T *dataDes) {
-		cutilSafeCall( cudaMemcpy(dataDes, gpuPtr, arraySize, cudaMemcpyDeviceToHost) );
+		kCudaErrorCheck( cudaMemcpy(dataDes, gpuPtr, arraySize, cudaMemcpyDeviceToHost) );
 	}
 
 	unsigned int getSize() {
