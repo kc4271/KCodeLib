@@ -32,6 +32,7 @@ bool write_matbin(const char *path, cv::Mat const &dst) {
         int channels = dst.channels();
         fout.write((char *) dst.data, elem_size * matsize * channels);
         fout.close();
+        return true;
     }
     else {
         return false;
