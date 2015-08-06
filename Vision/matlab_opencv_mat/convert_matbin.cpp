@@ -83,3 +83,12 @@ bool convert_fstorage2matbin(const char *fstorage_path, const char *matname, con
     fs.release();
     return true;
 }
+
+int main(int argc, char **argv) {
+    if (argc < 4) {
+        printf("Usage convert_matbin src.yaml/xml dst.matbin matname\n");
+        return 0;
+    }
+    
+    return convert_fstorage2matbin(argv[1], argv[3], argv[2]) != true;
+}

@@ -1,5 +1,4 @@
 #include "mex.h"
-#include "KIndexer.h"
 #include <string>
 #include <vector>
 #include <fstream>
