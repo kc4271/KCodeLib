@@ -150,7 +150,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
     }
     
     string matbin_path = mxArrayToString(prhs[0]);
-    ifstream fin(matbin_path, std::fstream::in | std::fstream::binary);
+    ifstream fin(matbin_path.c_str(), std::fstream::in | std::fstream::binary);
     if(fin.fail()) {
         mexErrMsgIdAndTxt( "MATLAB:read_matbin:invalidPath",
                     "Cannot read matbin file");
